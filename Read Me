@@ -1,0 +1,5 @@
+To run the server,
+run node server.js
+
+If that doesn't not work, then you might need to install all the dependencies. The dependencies can be installed as:
+npm install express hbs --save
