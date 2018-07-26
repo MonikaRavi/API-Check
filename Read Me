@@ -1,5 +1,9 @@
 To run the server,
 run node server.js
 
+The server is being hosted at localhost://3000.
+
+It returns a JSON Object at its homepage i.e (localhost://3000/)
+
 If that doesn't not work, then you might need to install all the dependencies. The dependencies can be installed as:
 npm install express hbs --save
