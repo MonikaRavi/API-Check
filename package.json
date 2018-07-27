@@ -1,14 +1,22 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+  "name": "appengine-my-recipes",
+  "description": "Node.js sample for Google App Engine Standard Environment.",
+  "version": "0.0.1",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Monika Ravi",
+  "engines": {
+    "node": "8.x.x"
   },
-  "author": "",
-  "license": "ISC",
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node dist/server.js",
+    "lint": "repo-tools lint",
+    "pretest": "npm run lint",
+    "system-test": "repo-tools test app",
+    "test": "npm run system-test",
+    "e2e-test": "repo-tools test deploy"
+  },
   "dependencies": {
     "express": "^4.16.3",
     "hbs": "^4.0.1"
