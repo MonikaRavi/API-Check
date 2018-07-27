@@ -5,7 +5,7 @@ var app=express();
 app.set('view engine','hbs');
 app.use(express.static(__dirname +'/public'));
 
-app.get("/",function(req,res){
+app.get("/sample",function(req,res){
 	//res.send('<h1>Hello Express!</h1>');
 	res.send({
 		name:'Andrew',
@@ -14,6 +14,11 @@ app.get("/",function(req,res){
 		'cities'
 		]
 	});
+});
+
+app.get("/",function(req,res){
+	
+	res.send('<h1> API Home </h1>');
 });
 
 
