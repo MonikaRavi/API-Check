@@ -10,7 +10,7 @@
   },
   "scripts": {
     "deploy": "gcloud app deploy",
-    "start": "node dist/server.js",
+    "start": "node server.js",
     "lint": "repo-tools lint",
     "pretest": "npm run lint",
     "system-test": "repo-tools test app",
