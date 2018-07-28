@@ -2,10 +2,12 @@ const express=require("express");
 const hbs=require("hbs");
 var app=express();
 var firebase=require("firebase");
+var favicon = require('serve-favicon');
+var path = require('path');
 
 app.set('view engine','hbs');
 app.use(express.static(__dirname +'/public'));
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, '/public', 'favicon.ico')));
 
 
 // firebase.initializeApp({
