@@ -82,9 +82,14 @@ ref.once('value')
 
 
 
+	app.get("/",function(req,res){
+		res.send('<h1>Drinking Fountain Data!</h1>');
+	
+	});
 
 
-app.get("/",function(req,res){
+
+app.get("/drinkingfountain",function(req,res){
 	//res.send('<h1>Hello Express!</h1>');
 	// res.send({
 	// 	name:'Andrew',
