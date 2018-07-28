@@ -5,6 +5,7 @@ var firebase=require("firebase");
 
 app.set('view engine','hbs');
 app.use(express.static(__dirname +'/public'));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
 
 // firebase.initializeApp({
