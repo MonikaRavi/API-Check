@@ -1,13 +1,17 @@
 const express=require("express");
-const hbs=require("hbs");
+//const hbs=require("hbs");
 var app=express();
 var firebase=require("firebase");
+
 var favicon = require('serve-favicon');
 var path = require('path');
+const http = require('http');
 
-app.set('view engine','hbs');
+//app.set('view engine','hbs');
 app.use(express.static(__dirname +'/public'));
+
 app.use(favicon(path.join(__dirname, '/public', 'favicon.ico')));
+
 
 
 // firebase.initializeApp({
@@ -106,6 +110,16 @@ app.get("/bad",function(req,res){
 	});
 });
 
+/*
 app.listen(3000,function(){
 	console.log("Server starting..");
 });
+*/
+const port = process.env.PORT || '3000';
+app.set('port', port);
+
+const server = http.createServer(app);
+
+server.listen(port, () => console.log(`Running on localhost:${port}`));
+
+module.exports = app;
