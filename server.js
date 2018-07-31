@@ -170,7 +170,7 @@ app.get("/rfid/:rfid",function(req,res){
 		}
 	});
 	//console.log(allmatchingLog);
-	console.log( totalConsumption);
+	//console.log( totalConsumption);
 	var logData={
 		'totalLogs':totalLogs,
 		'totalConsumption':totalConsumption
@@ -223,7 +223,7 @@ app.get("/:emailId",function(req,res){
 		}
 
 	});
-	console.log(allMatchingLog);
+	//console.log(allMatchingLog);
 	res.send(allMatchingLog);
 	//res.render("emailId",{data:data["2740efeb"]});
 });
