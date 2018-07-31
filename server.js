@@ -1,9 +1,11 @@
 const express=require("express");
-const hbs=require("hbs");
+//const ejs=require("ejs");
 var app=express();
 var firebase=require("firebase");
+var bodyParser=require("body-parser");
 
-app.set('view engine','hbs');
+app.use(bodyParser.urlencoded({extended:true}));
+app.set('view engine','ejs');
 app.use(express.static(__dirname +'/public'));
 
 
@@ -33,26 +35,25 @@ firebase.initializeApp({
 
 
 // var ref=firebase.database().ref('Email_Ids');
-// var messagesRef=ref.child('users');
-// var stillRef=messagesRef.child('office');
-
-// stillRef.push({
-// 	name:'Adele',
-// 	age:30,
-// 	salary:true,
-// 	email:'adele@company.com'
+// ref.push({
+// 	email:'maxl@hawsco.com'
+// });
+// ref.push({
+// 	email:'richardf@hawsco.com'
 // });
 
+
+//code for writing data to the database
 var ref=firebase.database().ref('users');
 var data=[];
 
 ref.once('value')
 	.then(function(snap){
-		console.log(snap.key,"\n\n");
-		console.log(snap.ref.toString(),"\n");
+		// console.log(snap.key,"\n\n");
+		// console.log(snap.ref.toString(),"\n");
 		data=snap.val();
-		console.log("*************");
-		console.log(data);
+		//console.log("*************");
+		//console.log(data);
 		//console.log(snap.val(),"\n\n")
 	})
 
@@ -61,11 +62,11 @@ var ref=firebase.database().ref('deviceAccount');
 var data1=[];
 ref.once('value')
 	.then(function(snap){
-		console.log(snap.key,"\n\n");
-		console.log(snap.ref.toString(),"\n");
+		// console.log(snap.key,"\n\n");
+		// console.log(snap.ref.toString(),"\n");
 		data1=(snap.val());
-		console.log("*************");
-		console.log(data1);
+		//console.log("*************");
+		//console.log(data1);
 		//console.log(snap.val(),"\n\n")
 	})
 
@@ -73,11 +74,11 @@ var ref=firebase.database().ref('device');
 var data2=[];
 ref.once('value')
 	.then(function(snap){
-		console.log(snap.key,"\n\n");
-		console.log(snap.ref.toString(),"\n");
+		// console.log(snap.key,"\n\n");
+		// console.log(snap.ref.toString(),"\n");
 		data2=(snap.val());
-		console.log("*************");
-		console.log(data2);
+		//console.log("*************");
+		//console.log(data2);
 		//console.log(snap.val(),"\n\n")
 	})
 
@@ -111,6 +112,78 @@ app.get("/bad",function(req,res){
 		name:'Error Message'
 	});
 });
+
+// app.get("/:emailId",function(req,res){
+// 	var reqEmailId=req.params.emailId;
+// 	console.log("reqEmail= "+reqEmailId);
+// 	var matchingLog=[];
+// 	console.log("matching log= "+matchingLog);
+// 	console.log("__________________________________________");
+// 	Object.keys(data).forEach(function(key){
+// 		//console.log("key= "+key);
+// 		console.log("key.email= "+ data[key].email);
+// 		// console.log("type of email:"+ typeof(data[key].email));
+// 		// console.log("type of req:"+typeof(reqEmailId));
+// 		if(data[key].email===reqEmailId){
+// 			matchingLog.push(data[key]);
+// 		}
+// 	});
+// 	console.log("matching log= ");
+// 	console.log(matchingLog);
+// 	//console.log(data["2740efeb"]);
+// 	//var data=[1,2,3];
+// 	console.log("__________________________________________");
+// 	//console.log(JSON.stringify(res.body));
+
+// 	 res.render("emailId",{data:data["2740efeb"]});
+// });
+
+app.get("/:emailId",function(req,res){
+	var reqEmailId=req.params.emailId;
+
+	console.log("reqEmail= "+reqEmailId);
+	var matchingLog=[];
+	console.log("matching log= "+matchingLog);
+	console.log("__________________________________________");
+	Object.keys(data).forEach(function(key){
+		//console.log("key= "+key);
+		console.log("key.email= "+ data[key].email);
+		// console.log("type of email:"+ typeof(data[key].email));
+		// console.log("type of req:"+typeof(reqEmailId));
+		if(data[key].email===reqEmailId){
+			matchingLog.push(data[key]);
+		}
+	});
+	console.log("matching log= ");
+	console.log(matchingLog);
+	var reqRfid=matchingLog[0].rfid;
+	console.log("matching rfid: "+reqRfid);
+	//console.log(data["2740efeb"]);
+	//var data=[1,2,3];
+	console.log("__________________________________________");
+	//console.log(JSON.stringify(res.body));
+	var allMatchingLog=[];
+
+	//extract all the transaction of this reqRfid
+	//console.log(data2["MPRLog"]["-LFZjowOUbZszA9x7YFH"]["filterExpired"]);
+	console.log(data2["MPRlog"]["-LFZjowOUbZszA9x7YFH"]);
+	//var collection="MPRlog";
+	//console.log(data2.collection["-LFZjowOUbZszA9x7YFH"]);
+	Object.keys(data2["MPRlog"]).forEach(function(key){
+		//console.log("Key= "+key);
+		//console.log("data2.collection.key.rfid: "+ data2["MPRlog"][key]["rfid"]);
+		var tempRfid=data2["MPRlog"][key]["rfid"];
+		if(tempRfid===reqRfid)
+		{
+			allMatchingLog.push(data2["MPRlog"][key]);
+		}
+
+	});
+	console.log(allMatchingLog);
+	res.send(allMatchingLog);
+	//res.render("emailId",{data:data["2740efeb"]});
+});
+
 
 app.listen(3000,function(){
 	console.log("Server starting..");
