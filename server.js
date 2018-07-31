@@ -95,7 +95,7 @@ app.get("/",function(req,res){
 	// 	'cities'
 	// 	]
 	// });
-	res.send("Welcome to Haws Fountain API!!! <br><br> <br> <br> <br>  Copyright @Hawsco");
+	res.send('<h1>Welcome to Haws Drinking Fountain API!!! </h1> <br><br> <br> <br> <br>  Copyright @Hawsco');
 });
 
 
