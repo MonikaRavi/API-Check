@@ -137,6 +137,40 @@ app.get("/bad",function(req,res){
 
 // 	 res.render("emailId",{data:data["2740efeb"]});
 // });
+app.get("/rfid/:rfid",function(req,res){
+	var reqRfid=req.params.rfid;
+	//console.log(reqRfid);
+	var allmatchingLog=[];
+	var totalConsumption=0;
+	var totalLogs=0;
+	Object.keys(data2["MPRlog"]).forEach(function(key){
+		//console.log("Key= "+key);
+		//console.log("data2.collection.key.rfid: "+ data2["MPRlog"][key]["rfid"]);
+		var tempRfid=data2["MPRlog"][key]["rfid"];
+		if(tempRfid===reqRfid)
+		{
+			allmatchingLog.push(data2["MPRlog"][key]);
+			//totalConsumption+=parseInt(data2["MPRlog"][key]["flow"]);
+			var tempVal= (Number(data2["MPRlog"][key]["flow"]));
+			//console.log(tempVal);
+			//console.log(typeof(tempVal));
+			totalConsumption=totalConsumption+tempVal;
+			//console.log('partial consumption:' + totalConsumption);
+			 totalLogs=Number(totalLogs)+1;
+		}
+	});
+	//console.log(allmatchingLog);
+	console.log( totalConsumption);
+	var logData={
+		'totalLogs':totalLogs,
+		'totalConsumption':totalConsumption
+	};
+
+	allmatchingLog.push(logData);
+	console.log(allmatchingLog);
+	res.send(allmatchingLog);
+});
+
 
 app.get("/:emailId",function(req,res){
 	var reqEmailId=req.params.emailId;
