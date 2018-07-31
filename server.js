@@ -84,10 +84,20 @@ ref.once('value')
 
 
 
-
-
-
 app.get("/",function(req,res){
+	//res.send('<h1>Hello Express!</h1>');
+	// res.send({
+	// 	name:'Andrew',
+	// 	likes:[
+	// 	'biking',
+	// 	'cities'
+	// 	]
+	// });
+	res.send("Welcome to Haws Fountain API!!! <br><br> <br> <br> <br>  Copyright @Hawsco");
+});
+
+
+app.get("/allData",function(req,res){
 	//res.send('<h1>Hello Express!</h1>');
 	// res.send({
 	// 	name:'Andrew',
