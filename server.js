@@ -17,7 +17,7 @@ app.use(express.static(__dirname +'/public'));
 
 var firebase = require("firebase-admin");
 
-var serviceAccount = require("./dummyfountain-88e720e735ec.json");
+//var serviceAccount = require("./dummyfountain-88e720e735ec.json");
 
 // firebase.initializeApp({
 //   credential: firebase.credential.cert(serviceAccount),
@@ -177,7 +177,7 @@ app.get("/rfid/:rfid",function(req,res){
 	};
 
 	allmatchingLog.push(logData);
-	console.log(allmatchingLog);
+	//console.log(allmatchingLog);
 	res.send(allmatchingLog);
 });
 
@@ -185,32 +185,32 @@ app.get("/rfid/:rfid",function(req,res){
 app.get("/:emailId",function(req,res){
 	var reqEmailId=req.params.emailId;
 
-	console.log("reqEmail= "+reqEmailId);
+	//console.log("reqEmail= "+reqEmailId);
 	var matchingLog=[];
-	console.log("matching log= "+matchingLog);
-	console.log("__________________________________________");
+	//console.log("matching log= "+matchingLog);
+	//console.log("__________________________________________");
 	Object.keys(data).forEach(function(key){
 		//console.log("key= "+key);
-		console.log("key.email= "+ data[key].email);
+		//console.log("key.email= "+ data[key].email);
 		// console.log("type of email:"+ typeof(data[key].email));
 		// console.log("type of req:"+typeof(reqEmailId));
 		if(data[key].email===reqEmailId){
 			matchingLog.push(data[key]);
 		}
 	});
-	console.log("matching log= ");
-	console.log(matchingLog);
+	//console.log("matching log= ");
+	//console.log(matchingLog);
 	var reqRfid=matchingLog[0].rfid;
-	console.log("matching rfid: "+reqRfid);
+	//console.log("matching rfid: "+reqRfid);
 	//console.log(data["2740efeb"]);
 	//var data=[1,2,3];
-	console.log("__________________________________________");
+	//console.log("__________________________________________");
 	//console.log(JSON.stringify(res.body));
 	var allMatchingLog=[];
 
 	//extract all the transaction of this reqRfid
 	//console.log(data2["MPRLog"]["-LFZjowOUbZszA9x7YFH"]["filterExpired"]);
-	console.log(data2["MPRlog"]["-LFZjowOUbZszA9x7YFH"]);
+	//console.log(data2["MPRlog"]["-LFZjowOUbZszA9x7YFH"]);
 	//var collection="MPRlog";
 	//console.log(data2.collection["-LFZjowOUbZszA9x7YFH"]);
 	Object.keys(data2["MPRlog"]).forEach(function(key){
