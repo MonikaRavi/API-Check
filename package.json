@@ -21,7 +21,9 @@
     "express": "^4.16.3",
     "firebase": "^5.3.0",
     "firebase-admin": "^5.13.1",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.4"
   },
   "devDependencies": {
     "@google-cloud/nodejs-repo-tools": "^2.3.0",

@@ -1,4 +1,6 @@
 const express=require("express");
+const cors=require('cors');
+var bodyParser=require("body-parser");
 //const hbs=require("hbs");
 var app=express();
 var firebase=require("firebase");
@@ -6,6 +8,11 @@ var firebase=require("firebase");
 var favicon = require('serve-favicon');
 var path = require('path');
 const http = require('http');
+
+//CORS 
+
+app.use(cors());
+app.use(bodyParser.urlencoded({extended:true}));
 
 //app.set('view engine','hbs');
 app.use(express.static(__dirname +'/public'));
