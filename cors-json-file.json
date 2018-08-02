@@ -1,0 +1,7 @@
+[
+    {
+      "origin": ["http://example.appspot.com"],
+      "responseHeader": ["Content-Type"],
+      "method": ["GET", "HEAD", "DELETE"]
+    }
+]
