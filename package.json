@@ -1,21 +1,39 @@
 {
-  "name": "web-server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "name": "appengine-my-recipes",
+  "description": "Node.js sample for Google App Engine Standard Environment.",
+  "version": "0.0.1",
+  "private": true,
+  "license": "ISC",
+  "author": "Monika Ravi",
+  "engines": {
+    "node": "8.x.x"
+  },
+  "scripts": {
+    "deploy": "gcloud app deploy",
+    "start": "node server.js",
+    "lint": "repo-tools lint",
+    "pretest": "npm run lint",
+    "system-test": "repo-tools test app",
+    "test": "npm run system-test",
+    "e2e-test": "repo-tools test deploy"
+  },
   "dependencies": {
-    "body-parser": "^1.18.3",
-    "ejs": "^2.6.1",
     "express": "^4.16.3",
     "firebase": "^5.3.0",
     "firebase-admin": "^5.13.1",
-    "hbs": "^4.0.1"
+    "serve-favicon": "^2.5.0"
   },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+  "devDependencies": {
+    "@google-cloud/nodejs-repo-tools": "^2.3.0",
+    "semistandard": "^12.0.1"
   },
-  "author": "",
-  "license": "ISC"
+  "cloud-repo-tools": {
+    "test": {
+      "app": {
+        "msg": "Hello, world!"
+      }
+    },
+    "requiresKeyFile": true,
+    "requiresProjectId": true
+  }
 }
