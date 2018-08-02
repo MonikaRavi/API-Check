@@ -1,11 +1,13 @@
 const express=require("express");
 //const ejs=require("ejs");
 var app=express();
+var cors=require('cors');
 var firebase=require("firebase");
 var bodyParser=require("body-parser");
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine','ejs');
+app.use(cors());
 app.use(express.static(__dirname +'/public'));
 
 
@@ -248,6 +250,16 @@ app.get("*",function(req,res){
 	res.send("You are trying to reach an end point which doesn't exist!!! Please try again");
 });
 
+/*
 app.listen(3000,function(){
 	console.log("Server starting..");
 });
+*/
+const port = process.env.PORT || '3000';
+app.set('port', port);
+
+const server = http.createServer(app);
+
+server.listen(port, () => console.log(`Running on localhost:${port}`));
+
+module.exports = app;
