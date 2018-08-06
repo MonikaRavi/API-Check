@@ -1,15 +1,21 @@
 const express=require("express");
 //const ejs=require("ejs");
 var app=express();
-var cors=require('cors');
 var firebase=require("firebase");
 var bodyParser=require("body-parser");
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine','ejs');
-app.use(cors());
-app.use(express.static(__dirname +'/public'));
 
+var favicon = require('serve-favicon');
+var path = require('path');
+const http = require('http');
+var cors=require('cors');
+
+//app.set('view engine','hbs');
+app.use(express.static(__dirname +'/public'));
+app.use(cors());
+app.use(favicon(path.join(__dirname, '/public', 'favicon.ico')));
 
 // firebase.initializeApp({
 // 	serviceAccount:"./dummy-3538d-firebase-adminsdk-nta1a-f74d968f67.json",
@@ -36,27 +42,13 @@ firebase.initializeApp({
 });
 
 
-// var ref=firebase.database().ref('Email_Ids');
-// ref.push({
-// 	email:'maxl@hawsco.com'
-// });
-// ref.push({
-// 	email:'richardf@hawsco.com'
-// });
-
-
 //code for writing data to the database
 var ref=firebase.database().ref('users');
 var data=[];
 
 ref.once('value')
 	.then(function(snap){
-		// console.log(snap.key,"\n\n");
-		// console.log(snap.ref.toString(),"\n");
 		data=snap.val();
-		//console.log("*************");
-		//console.log(data);
-		//console.log(snap.val(),"\n\n")
 	})
 
 
@@ -125,31 +117,7 @@ app.get("/bad",function(req,res){
 	});
 });
 
-// app.get("/:emailId",function(req,res){
-// 	var reqEmailId=req.params.emailId;
-// 	console.log("reqEmail= "+reqEmailId);
-// 	var matchingLog=[];
-// 	console.log("matching log= "+matchingLog);
-// 	console.log("__________________________________________");
-// 	Object.keys(data).forEach(function(key){
-// 		//console.log("key= "+key);
-// 		console.log("key.email= "+ data[key].email);
-// 		// console.log("type of email:"+ typeof(data[key].email));
-// 		// console.log("type of req:"+typeof(reqEmailId));
-// 		if(data[key].email===reqEmailId){
-// 			matchingLog.push(data[key]);
-// 		}
-// 	});
-// 	console.log("matching log= ");
-// 	console.log(matchingLog);
-// 	//console.log(data["2740efeb"]);
-// 	//var data=[1,2,3];
-// 	console.log("__________________________________________");
-// 	//console.log(JSON.stringify(res.body));
-
-// 	 res.render("emailId",{data:data["2740efeb"]});
-// });
-app.get("/rfid/:rfid",function(req,res){
+app.get("/details/rfid/:rfid",function(req,res){
 	var reqRfid=req.params.rfid;
 	var regexRfid=RegExp('([a-zA-Z0-9]{8}$)');
 	console.log(reqRfid.length);
@@ -187,14 +155,41 @@ app.get("/rfid/:rfid",function(req,res){
 		res.send(allmatchingLog);
 	}else{
 		res.send("Invalid Rfid tag. Please re-check your rfid. It must have 8 alphanumeric characters!!!");
-	}
+	}	
+});
 
-	
-	
+app.get("/summary/rfid/:rfid",function(req,res){
+	var reqRfid=req.params.rfid;
+	var regexRfid=RegExp('([a-zA-Z0-9]{8}$)');
+	console.log(reqRfid.length);
+	console.log("regexRfid.test(reqRfid)=" + regexRfid.test(reqRfid));
+	if(regexRfid.test(reqRfid)==true && reqRfid.length===8){
+		var allmatchingLog=[];
+		var totalConsumption=0;
+		var totalLogs=0;
+		Object.keys(data2["MPRlog"]).forEach(function(key){
+			var tempRfid=data2["MPRlog"][key]["rfid"];
+			if(tempRfid===reqRfid)
+			{
+				allmatchingLog.push(data2["MPRlog"][key]);
+				var tempVal= (Number(data2["MPRlog"][key]["flow"]));
+				totalConsumption=totalConsumption+tempVal;
+     			totalLogs=Number(totalLogs)+1;
+			}
+		});
+		var logData={
+			'totalLogs':totalLogs,
+			'totalConsumption':totalConsumption
+		};
+		allmatchingLog.push(logData);
+		res.send(logData);
+	}else{
+		res.send("Invalid Rfid tag. Please re-check your rfid. It must have 8 alphanumeric characters!!!");
+	}	
 });
 
 
-app.get("/:emailId",function(req,res){
+app.get("/details/email/:emailId",function(req,res){
 	var reqEmailId=req.params.emailId;
 	var regexEmail=RegExp('([a-z0-9][-a-z0-9_\+\.]*[a-z0-9])@([a-z0-9][-a-z0-9\.]*[a-z0-9]\.(arpa|root|aero|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)|([0-9]{1,3}\.{3}[0-9]{1,3}))');
 	//console.log(regexEmail.test("biplav.timalsina@gmail.com"));
@@ -246,15 +241,57 @@ app.get("/:emailId",function(req,res){
 	
 });
 
+app.get("/summary/email/:emailId",function(req,res){
+	var reqEmailId=req.params.emailId;
+	var regexEmail=RegExp('([a-z0-9][-a-z0-9_\+\.]*[a-z0-9])@([a-z0-9][-a-z0-9\.]*[a-z0-9]\.(arpa|root|aero|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)|([0-9]{1,3}\.{3}[0-9]{1,3}))');
+	//console.log(regexEmail.test("biplav.timalsina@gmail.com"));
+	//console.log("reqEmail= "+reqEmailId);
+	var totalConsumption=0;
+	var totalLogs=0;
+	if(regexEmail.test(reqEmailId)){
+		var matchingLog=[];
+		Object.keys(data).forEach(function(key){
+		if(data[key].email===reqEmailId){
+				matchingLog.push(data[key]);
+				
+			}
+		});
+		var reqRfid=matchingLog[0].rfid;
+		var allMatchingLog=[];
+		Object.keys(data2["MPRlog"]).forEach(function(key){
+			var tempRfid=data2["MPRlog"][key]["rfid"];
+			if(tempRfid===reqRfid)
+			{
+				allMatchingLog.push(data2["MPRlog"][key]);
+				totalLogs++;
+				var tempVal= (Number(data2["MPRlog"][key]["flow"]));
+				totalConsumption+=tempVal;
+			}
+
+		});
+		//console.log(allMatchingLog);
+		res.send({
+			totalConsumption:totalConsumption,
+			totalLogs:totalLogs
+		});
+		//res.render("emailId",{data:data["2740efeb"]});
+	}else{
+		res.send("Invalid Email address");
+	}
+	
+});
+
+
+
 app.get("*",function(req,res){
 	res.send("You are trying to reach an end point which doesn't exist!!! Please try again");
 });
 
-/*
-app.listen(3000,function(){
-	console.log("Server starting..");
-});
-*/
+
+// app.listen(3000,function(){
+// 	console.log("Server starting..");
+// });
+
 const port = process.env.PORT || '3000';
 app.set('port', port);
 
