@@ -3,6 +3,7 @@ const express=require("express");
 var app=express();
 var firebase=require("firebase");
 var bodyParser=require("body-parser");
+var CryptoJS = require("crypto-js");
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.set('view engine','ejs');
@@ -273,6 +274,17 @@ app.get("/summary/email/:emailId",function(req,res){
 		res.send("Invalid Email address");
 	}
 	
+});
+
+app.get("/access/:key",function(req,res){
+	var ciphertext=CryptoJS.AES.encrypt("my message","secretKey");
+	console.log("ciphertext:",ciphertext);
+
+	var bytes=CryptoJS.AES.decrypt(ciphertext.toString(),'secretKey');
+	var plaintext=bytes.toString(CryptoJS.enc.Utf8);
+
+	console.log("plaintext:",plaintext);
+
 });
 
 
