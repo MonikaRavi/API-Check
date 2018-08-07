@@ -51,10 +51,10 @@ module.exports.rfidCalculation=function(req,data2,option){
 		});
 		//find out the total number of days of data available for this user
 		
-		var sinceDays=calculateDays(allMatchingLog);
+		var sinceDays=parseInt(calculateDays(allMatchingLog));
 		//console.log(sinceDays);
 
-		var uniqueDays=calculateActualDays(allMatchingLog);
+		var uniqueDays=parseInt(calculateActualDays(allMatchingLog));
 
 		var logData={
 			'totalLogs':totalLogs,
@@ -103,9 +103,9 @@ module.exports.emailCalculation=function(req,data,data2,option){
 			}
 		});		
 
-		var sinceDays=calculateDays(allMatchingLog);
+		var sinceDays=parseInt(calculateDays(allMatchingLog));
 		//console.log(sinceDays);
-		var uniqueDays=calculateActualDays(allMatchingLog);		
+		var uniqueDays=parseInt(calculateActualDays(allMatchingLog));		
 		var logData={
 			'totalLogs':totalLogs,
 			'totalConsumption':totalConsumption,

@@ -344,6 +344,7 @@ app.get("/access/:key",function(req,res){
 	var plaintext=bytes.toString(CryptoJS.enc.Utf8);
 
 	console.log("plaintext:",plaintext);
+	res.send(plaintext);
 });
 
 
