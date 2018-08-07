@@ -337,14 +337,7 @@ app.get("/summary/email/:emailId/:days",function(req,res){
 });
 
 app.get("/access/:key",function(req,res){
-	var ciphertext=CryptoJS.AES.encrypt("my message","secretKey");
-	console.log("ciphertext:",ciphertext);
-
-	var bytes=CryptoJS.AES.decrypt(ciphertext.toString(),'secretKey');
-	var plaintext=bytes.toString(CryptoJS.enc.Utf8);
-
-	console.log("plaintext:",plaintext);
-	res.send(plaintext);
+	
 });
 
 

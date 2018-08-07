@@ -62,9 +62,11 @@ module.exports.rfidCalculation=function(req,data2,option){
 			'totalDaysSinceFirstDispense':sinceDays,
 			'uniqueDays':uniqueDays
 		};
+		var logDataArray=[];
+		logDataArray.push(logData);
 		if(option===1){
 			allMatchingLog.push(logData);
-			return logData;
+			return logDataArray;
 		}else
 		{
 			return allMatchingLog;
@@ -112,9 +114,11 @@ module.exports.emailCalculation=function(req,data,data2,option){
 			'totalDaysSinceFirstDispense':sinceDays,
 			'uniqueDays':uniqueDays
 		};
+		var logDataArray=[];
+		logDataArray.push(logData);
 		//console.log(allMatchingLog);
 		if(option===1){
-			return logData;
+			return logDataArray;
 		}else
 		{
 			return allMatchingLog;
