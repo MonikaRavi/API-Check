@@ -195,12 +195,12 @@ app.get("/summary/rfid/:rfid/:days",function(req,res){
 				totalConsumption+=tempVal;
 			}
 		}); 
-		var logData={
+		var logData=[{
 			'totalLogs':totalLogs,
 			'totalConsumption':totalConsumption
 			//'totalDaysSinceFirstDispense':sinceDays,
 			//'uniqueDays':uniqueDays
-		};
+		}];
 		if(option===1){
 			allMatchingLog.push(logData);
 			res.send(logData);
@@ -329,22 +329,15 @@ app.get("/summary/email/:emailId/:days",function(req,res){
 		}
 		
 	});
-	res.send({
+	res.send([{
 		'totalLogs':totalLogs,
 		'totalConsumption':totalConsumption
-	});
+	}]);
 	}
 });
 
 app.get("/access/:key",function(req,res){
-	var ciphertext=CryptoJS.AES.encrypt("my message","secretKey");
-	console.log("ciphertext:",ciphertext);
-
-	var bytes=CryptoJS.AES.decrypt(ciphertext.toString(),'secretKey');
-	var plaintext=bytes.toString(CryptoJS.enc.Utf8);
-
-	console.log("plaintext:",plaintext);
-	res.send(plaintext);
+	
 });
 
 
