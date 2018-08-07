@@ -195,12 +195,12 @@ app.get("/summary/rfid/:rfid/:days",function(req,res){
 				totalConsumption+=tempVal;
 			}
 		}); 
-		var logData={
+		var logData=[{
 			'totalLogs':totalLogs,
 			'totalConsumption':totalConsumption
 			//'totalDaysSinceFirstDispense':sinceDays,
 			//'uniqueDays':uniqueDays
-		};
+		}];
 		if(option===1){
 			allMatchingLog.push(logData);
 			res.send(logData);
@@ -329,10 +329,10 @@ app.get("/summary/email/:emailId/:days",function(req,res){
 		}
 		
 	});
-	res.send({
+	res.send([{
 		'totalLogs':totalLogs,
 		'totalConsumption':totalConsumption
-	});
+	}]);
 	}
 });
 
