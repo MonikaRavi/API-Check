@@ -1,7 +1,3 @@
+# dependencies
 /node_modules
-/dummy-5adb86004165.json
-/dummy-576c3371bc1a.json
-/dummy-3538d-firebase-adminsdk-nta1a-f74d968f67.json
-/dummyfountain-88e720e735ec.json
-/fountain-4a64ebe96d96.json
-/package-lock.json
+package-lock.json
