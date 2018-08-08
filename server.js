@@ -5,6 +5,8 @@ var bodyParser=require("body-parser");
 var CryptoJS = require("crypto-js");
 var refactoring=require("./refactoring.js");
 var moment=require('moment');
+var aesjs=require('aes-js');
+
 
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -17,6 +19,10 @@ var cors=require('cors');
 app.use(express.static(__dirname +'/public'));
 app.use(cors());
 app.use(favicon(path.join(__dirname, '/public', 'favicon.ico')));
+
+
+var key1 = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16 ];
+var iv = [ 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34,35, 36 ];
 
 // firebase.initializeApp({
 // 	serviceAccount:"./dummy-3538d-firebase-adminsdk-nta1a-f74d968f67.json",
@@ -280,7 +286,17 @@ app.get("/details/email/:emailId/:days",function(req,res){
 	}
 });
 
-app.get("/summary/email/:emailId/:days",function(req,res){
+app.get("/summary/email/:emailId/:days/:authenticationKey",function(req,res){
+	var authenticationKey=req.params.authenticationKey;
+	console.log("authenticationKey: ",authenticationKey);
+	var encryptedBytes = aesjs.utils.hex.toBytes(authenticationKey);;
+	var aesCbc = new aesjs.ModeOfOperation.cbc(key1, iv);
+	var decryptedBytes = aesCbc.decrypt(encryptedBytes);
+ 	var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
+
+	console.log("decrypted Text: ",decryptedText);
+	if(decryptedText==='hell@1herehoware')
+	{
 	var reqEmailId=req.params.emailId;
 	var reqDate=req.params.days;
 	var regexEmail=RegExp('([a-z0-9][-a-z0-9_\+\.]*[a-z0-9])@([a-z0-9][-a-z0-9\.]*[a-z0-9]\.(arpa|root|aero|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)|([0-9]{1,3}\.{3}[0-9]{1,3}))');
@@ -334,6 +350,9 @@ app.get("/summary/email/:emailId/:days",function(req,res){
 		'totalConsumption':totalConsumption
 	}]);
 	}
+}else{
+	res.send("Incorrect User Authorization Key");
+}
 });
 
 app.get("/access/:key",function(req,res){
