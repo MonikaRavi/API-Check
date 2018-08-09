@@ -100,8 +100,8 @@ Returns a JSON object of all the logs related to this emailID.
 Eg API request: root/details/email/mistys@hawsco.com
 
 
-9)root/summary/email/:emailId
-Returns the JSON object of summary of all the logs for this emailID.
+9)root/summary/email/:emailId/:days/:authenticationKey
+Returns the JSON object of summary of all the logs for this emailID and authentication Key
 Eg API Request: root/summary/email/mistys@hawsco.com
 Summary includes 
 {
