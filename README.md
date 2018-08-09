@@ -1,3 +1,48 @@
+Running the Server
+1. Go inside the root folder, where server.js file is present
+2. open command line in this directory
+3. Run 'npm server.js' code in command line
+Server is now started
+
+
+Refactoring Details
+All Refactored codes and dependencies are found in the folder ./refactoring.
+Description of Files:
+checkRegex.js
+- Contains two functions, checkRfidRegex() and checkEmailRegex() that checks whether the given RFID and the Emails in the API request follow standard.
+
+functionDays.js
+-contains four functions
+--calculateDays(logs)
+	calculate difference in days between that of logs and current time
+--countUnique(datess)
+	calculates unique days in the given array of datess
+--calculateActualDays(logs)
+	creates an array of dates by extracting dates from logs
+--findSummaryWithDays(logs,reqDate)
+	creates an object of all the logs and summary information about the logs with given reqDate
+
+operation.js
+-contains two functions
+--findAllMatchingLogsForRFID(device,reqRfid)
+	calculate all the matching logs for given Rfid from the 'device' of database
+--findingReqRfidFromEmail(users,reqEmailId)
+	calculate the Rfid for given EmailId, by using 'users' from database
+
+refactoring.js
+-contains four functions
+rfidCalculation(req,device,option)
+	calculates and everything for rfid without days in API requests
+
+rfidCalculationWithDays(req,device,option)
+	calculate and returns everything for rfid with days in API requests
+
+emailCalculation(req,device,option)
+	calculate and returns everything for Email without days in API Requests
+
+emailCalculationWithDays(req,device,option)
+	calculate and returns everything for Email with days in API requests
+
 
 
 API Description
@@ -86,4 +131,8 @@ Summary includes:
 	totalConsumption:27134
 }
 
+
+
+
+Refactoring Details
 
