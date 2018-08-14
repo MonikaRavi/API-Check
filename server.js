@@ -115,7 +115,7 @@ app.get("/",function(req,res){
 
 
 app.get("/allData",function(req,res){
-	res.send(users);
+	res.send({users,deviceAccount,device});
  });
 
 app.get("/bad",function(req,res){
