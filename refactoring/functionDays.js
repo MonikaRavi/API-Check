@@ -7,6 +7,7 @@ var calculateDays=function(logs){
 		//console.log('Current time: ',now);
 		//console.log("matching timestamp: ",end);
 		var duration=moment.duration(now.diff(end));
+		console.log("duration:",duration);
 		var days=duration.asDays();
 		//console.log('days: ',days);
 		return days;

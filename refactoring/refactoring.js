@@ -138,9 +138,11 @@ module.exports.rfidCalculationWithDays=function(req,device,option){
 
 module.exports.emailCalculation=function(req,users,device,option){
 	var reqEmailId=req.params.emailId;
+	//console.log("***");
 	if(checkEmailRegex(reqEmailId)){
 		//first find out the rfid of the supplied email
 		var reqRfid=findingReqRfidFromEmail(users,reqEmailId);
+		//console.log("reqRfid=",reqRfid);
 		//derive all required information using the newly find reqRfid
 		var summary=findAllMatchingLogsForRFID(device,reqRfid);
 		//return what the API request demands

@@ -13,6 +13,7 @@ function findAllMatchingLogsForRFID(device,reqRfid){
  			totalLogs=Number(totalLogs)+1;
 		}
 	});
+	console.log("totalLogs=",totalLogs);
 	var sinceDays=parseInt(functionDays.calculateDays(allMatchingLog));  //variable to store the the total days since first time the water is dispensed
 	var uniqueDays=parseInt(functionDays.calculateActualDays(allMatchingLog));	
 	return({
