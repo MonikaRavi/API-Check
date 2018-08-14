@@ -67,9 +67,9 @@ function findAllMatchingLogsForRFID(device,reqRfid){
 	return({
 		allMatchingLog:allMatchingLog,
 		summary: [{
-			totalConsumption:totalConsumption,
 			totalLogs:totalLogs,
-			sinceDays:sinceDays,
+			totalConsumption:totalConsumption,
+			totalDaysSinceFirstDispense:sinceDays,
 			uniqueDays:uniqueDays
 		}]		
 	});
